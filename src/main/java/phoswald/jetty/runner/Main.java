@@ -2,13 +2,18 @@ package phoswald.jetty.runner;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
 
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.webapp.WebInfConfiguration;
 import org.eclipse.jetty.webapp.WebXmlConfiguration;
+import org.glassfish.jersey.servlet.ServletProperties;
 
 import phoswald.daemon.utils.Daemon;
 
@@ -39,6 +44,11 @@ public class Main {
     		new WebInfConfiguration(),
     		new WebXmlConfiguration()
     	});
+        
+        // handler.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/*"); // working, but static content is no longer served
+        // handler.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/rest*"); // working, but exact pattern is unknown 
+        FilterHolder jersey = handler.addFilter(org.glassfish.jersey.servlet.ServletContainer.class, "/*", EnumSet.allOf(DispatcherType.class));
+        jersey.setInitParameter(ServletProperties.FILTER_FORWARD_ON_404, "true");
         
         Server server = new Server(port);
         server.setHandler(handler);

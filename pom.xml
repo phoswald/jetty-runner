@@ -25,6 +25,11 @@
       <version>9.3.11.v20160721</version>
     </dependency>
     <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet</artifactId>
+      <version>2.23.2</version>
+    </dependency>
+    <dependency>
       <groupId>phoswald</groupId>
       <artifactId>daemon-utils</artifactId>
       <version>0.0.1-SNAPSHOT</version>
